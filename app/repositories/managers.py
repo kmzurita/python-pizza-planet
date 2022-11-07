@@ -55,7 +55,7 @@ class IngredientManager(BaseManager):
 
 class BeverageManager(BaseManager):
     model = Beverage
-    serializer: BeverageSerializer
+    serializer = BeverageSerializer
 
     @classmethod
     def get_by_id_list(cls, ids: Sequence):
