@@ -22,9 +22,9 @@ jobs:
           pip install flake8 pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run tests with pytest and create coverage report
-        run: pytest
+        run: pytest-
       - name: Build coverage file
         run: |
-          pytest --cache-clear --cov=app test/ > pytest-coverage.txt
+          pytest --cache-clear --cov=app ./${{ env.TEST_DIR }} > pytest-coverage.txt
       - name: Comment coverage
         uses: coroo/pytest-coverage-commentator@v1.0.2
