@@ -7,6 +7,7 @@ from app.test.utils.functions import get_random_choice, shuffle_list
 
 def __order(ingredients: list, beverages: list, size: dict, client_data: dict):
     ingredients = [ingredient.get('_id') for ingredient in ingredients]
+    beverages = [beverage.get('_id') for beverage in beverages]
     size_id = size.get('_id')
     return {
         **client_data,
@@ -53,11 +54,11 @@ def test_create(app, ingredients, beverages, size, client_data):
         pytest.assume(size_id == created_order['size']['_id'])
 
         ingredients_in_detail = set(
-            item['ingredient']['_id'] for item in created_order['detail'])
+            item['ingredient']['_id'] for item in created_order['ingredient_detail'])
         pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
 
         beverages_in_detail = set(
-            item['beverage']['_id'] for item in created_order['detail'])
+            item['beverage']['_id'] for item in created_order['beverage_detail'])
         pytest.assume(not beverages_in_detail.difference(beverages_ids))
 
 
@@ -91,11 +92,11 @@ def test_get_by_id(app, ingredients, beverages, size, client_data):
         pytest.assume(size_id == created_order['size']['_id'])
 
         ingredients_in_detail = set(
-            item['ingredient']['_id'] for item in created_order['detail'])
+            item['ingredient']['_id'] for item in created_order['ingredient_detail'])
         pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
 
         beverages_in_detail = set(
-            item['beverage']['_id'] for item in created_order['detail'])
+            item['beverage']['_id'] for item in created_order['beverage_detail'])
         pytest.assume(not beverages_in_detail.difference(beverages_ids))
 
 
