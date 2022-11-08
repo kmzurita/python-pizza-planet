@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TEST_DIR: app/test/
     strategy:
       matrix:
         python-version: ["3.8"]
@@ -21,8 +23,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Run tests with pytest and create coverage report
-        run: pytest-
+      - name: Test with pytest
+        working-directory: ./${{ env.TEST_DIR }}
+        run: |
+          python -m pytest -v
       - name: Build coverage file
         run: |
           pytest --cache-clear --cov=app ./${{ env.TEST_DIR }} > pytest-coverage.txt
