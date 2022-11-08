@@ -1,8 +1,5 @@
 import pytest
 
-from app.test.utils.functions import get_random_string, get_random_price
-
-
 def test_create_order_service(create_order):
     created_order = create_order.json
     pytest.assume(create_order.status.startswith('200'))

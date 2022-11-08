@@ -1,15 +1,17 @@
 import pytest
+from faker import Faker
 
-from ..utils.functions import (shuffle_list, get_random_sequence,
-                               get_random_string)
+from ...utils.functions import (shuffle_list)
 
+
+fake = Faker()
 
 def client_data_mock() -> dict:
     return {
-        'client_address': get_random_string(),
-        'client_dni': get_random_sequence(),
-        'client_name': get_random_string(),
-        'client_phone': get_random_sequence()
+        'client_address': fake.street_address(),
+        'client_dni': str(fake.random_number(digits=10)),
+        'client_name': fake.name(),
+        'client_phone': fake.phone_number()
     }
 
 

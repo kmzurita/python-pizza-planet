@@ -1,6 +1,8 @@
 import pytest
+from faker import Faker
 
-from app.test.utils.functions import get_random_string, get_random_price
+fake = Faker()
+
 
 
 def test_create_ingredient_service(create_ingredient):
@@ -13,7 +15,8 @@ def test_create_ingredient_service(create_ingredient):
 
 def test_update_ingredient_service(client, create_ingredient, ingredient_uri):
     current_ingredient = create_ingredient.json
-    update_data = {**current_ingredient, 'name': get_random_string(), 'price': get_random_price(1, 5)}
+    update_data = {**current_ingredient, 'name': fake.pystr(),
+                   'price': fake.pyfloat(left_digits=2, right_digits=3, positive=True)}
     response = client.put(ingredient_uri, json=update_data)
     pytest.assume(response.status.startswith('200'))
     updated_ingredient = response.json
