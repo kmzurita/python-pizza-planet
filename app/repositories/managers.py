@@ -136,7 +136,6 @@ class ReportManager(BaseManager):
                 'month': sorted_report[0][0],
                 'revenue': round(sorted_report[0][1], 2)
             }
-        return order_list
 
     @classmethod
     def get_best_customers(cls) -> dict:
