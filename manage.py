@@ -1,7 +1,6 @@
 
 
 import pytest
-import subprocess
 from flask.cli import FlaskGroup
 from flask_migrate import Migrate
 
