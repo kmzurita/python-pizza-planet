@@ -6,6 +6,14 @@ from ..controllers import ReportController
 report = Blueprint('report', __name__)
 
 
+@report.route('/', methods=GET)
+def get_report():
+    most_requested_ingredient, error = ReportController.get_report()
+    response = most_requested_ingredient if not error else {'error': error}
+    status_code = 200 if not error else 400
+    return jsonify(response), status_code
+
+
 @report.route('/ingredient', methods=GET)
 def get_most_requested_ingredient():
     most_requested_ingredient, error = ReportController.get_most_requested_ingredient()

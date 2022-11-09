@@ -101,7 +101,7 @@ class ReportManager(BaseManager):
     session = db.session
 
     @classmethod
-    def get_most_request_ingredient(cls):
+    def get_most_requested_ingredient(cls) -> dict:
         ingredient_order_detail_list = cls.session.query(
             cls.ingredient_order_detail_model).all()
         ingredients_id_list = [ingredient_order_detail.ingredient_id
@@ -138,21 +138,19 @@ class ReportManager(BaseManager):
             }
 
     @classmethod
-    def get_best_customers(cls) -> dict:
+    def get_best_customers(cls) -> list:
         order_list = cls.session.query(cls.order_model).all()
         client_data = [client.client_dni for client in order_list]
         if client_data:
             clients_count = Counter(client_data)
             most_loyal_customers = clients_count.most_common(3)
-            return {
-                'customers': [
-                    {
-                        'dni': dni,
-                        'name': cls.get_client_name(dni, order_list),
-                        'number_of_purchases': number_of_purchases
-                    } for dni, number_of_purchases in most_loyal_customers
-                ]
-            }
+            return [
+                {
+                    'dni': dni,
+                    'name': cls.get_client_name(dni, order_list),
+                    'number_of_purchases': number_of_purchases
+                } for dni, number_of_purchases in most_loyal_customers
+            ]
 
     @staticmethod
     def get_client_name(dni: str, order_list: list) -> str:
