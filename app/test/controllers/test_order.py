@@ -2,7 +2,7 @@ import pytest
 from app.controllers import (IngredientController, OrderController,
                              SizeController, BeverageController)
 from app.controllers.base import BaseController
-from app.test.utils.functions import get_random_choice, shuffle_list
+from app.utils.functions import get_random_choice, shuffle_list
 
 
 def __order(ingredients: list, beverages: list, size: dict, client_data: dict):

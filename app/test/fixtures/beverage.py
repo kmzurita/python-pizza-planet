@@ -1,12 +1,13 @@
 import pytest
+from faker import Faker
 
-from ..utils.functions import get_random_price, get_random_string
+fake = Faker()
 
 
 def beverage_mock() -> dict:
     return {
-        'name': get_random_string(),
-        'price': get_random_price(10, 20)
+        'name': fake.pystr(),
+        'price': fake.pyfloat(left_digits=2, right_digits=3, positive=True)
     }
 
 
