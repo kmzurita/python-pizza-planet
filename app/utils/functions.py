@@ -13,6 +13,9 @@ POSITIVE_NUMBER = True
 STARTING_DATE_RANGE = "01-01-2022"
 FINISHING_DATE_RANGE = "31-12-2022"
 STARTING_RANGE = 0
+LIST_RANGE_5 = 5
+LIST_RANGE_10 = 10
+OK_STATUS = '200'
 
 
 def get_random_choice(choices: Union[tuple, list]) -> Any:
@@ -49,6 +52,10 @@ def get_random_phone() -> str:
 
 def get_random_dni() -> str:
     return str(_fake.random_number(digits=DNI_LENGTH))
+
+
+def get_random_string() -> str:
+    return _fake.pystr()
 
 
 def generate_random_dates(number_of_orders: int):
