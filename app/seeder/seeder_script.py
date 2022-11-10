@@ -1,4 +1,6 @@
 from app.seeder.seeder_utils import *
+from app.utils.functions import (get_random_choice, get_random_list,
+                                 generate_random_dates)
 from app.repositories.managers import (
     SizeManager, IngredientManager, BeverageManager, OrderManager)
 
@@ -35,12 +37,12 @@ def _seed_ingredient_table(ingredients: list):
 
 def _seed_order_table(dates: list, sizes: list, beverages: list, ingredients: list, clients: list):
     for _ in range(MAX_NUMBER_OF_ORDERS):
-        client_data = generate_random_choice(clients)
-        ordered_size = generate_random_choice(sizes)
-        ordered_ingredients = generate_random_list(
+        client_data = get_random_choice(clients)
+        ordered_size = get_random_choice(sizes)
+        ordered_ingredients = get_random_list(
             ingredients,
             MAX_NUMBER_OF_INGREDIENTS)
-        ordered_beverages = generate_random_list(
+        ordered_beverages = get_random_list(
             beverages,
             MAX_NUMBER_OF_BEVERAGES)
         total_price = calculate_total_price(
@@ -48,7 +50,7 @@ def _seed_order_table(dates: list, sizes: list, beverages: list, ingredients: li
             ordered_beverages,
             ordered_size.get('price'))
         order_data = client_data | {
-            'date': generate_random_choice(dates),
+            'date': get_random_choice(dates),
             'size_id': ordered_size.get('_id'),
             'total_price': total_price
         }
