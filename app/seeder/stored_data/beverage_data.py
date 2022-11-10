@@ -8,4 +8,5 @@ beverages = [
     'Sprite 1lt',
     'Sprite 3lt',
     'Dr. Pepper 1lt',
-    'Dr. Pepper 3lt']
+    'Dr. Pepper 3lt'
+]
