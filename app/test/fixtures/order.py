@@ -1,17 +1,15 @@
 import pytest
-from faker import Faker
+from app.utils.functions import (get_random_address, get_random_dni,
+                                 get_random_name, get_random_phone,
+                                 shuffle_list, LIST_RANGE_10)
 
-from ...utils.functions import (shuffle_list)
-
-
-fake = Faker()
 
 def client_data_mock() -> dict:
     return {
-        'client_address': fake.street_address(),
-        'client_dni': str(fake.random_number(digits=10)),
-        'client_name': fake.name(),
-        'client_phone': fake.phone_number()
+        'client_address': get_random_address(),
+        'client_dni': get_random_dni(),
+        'client_name': get_random_name(),
+        'client_phone': get_random_phone()
     }
 
 
@@ -53,12 +51,12 @@ def create_order(client, order_uri, create_ingredients, create_beverages, create
 
 
 @pytest.fixture
-def create_orders(client, order_uri, create_ingredients, create_beverages, create_sizes, client_data) -> list:
+def create_orders(client, order_uri, create_ingredients, create_beverages, create_sizes) -> list:
     ingredients = [ingredient.get('_id') for ingredient in create_ingredients]
     beverages = [beverage.get('_id') for beverage in create_beverages]
     sizes = [size.get('_id') for size in create_sizes]
     orders = []
-    for _ in range(10):
+    for _ in range(LIST_RANGE_10):
         new_order = client.post(order_uri, json={
             **client_data_mock(),
             'ingredients': shuffle_list(ingredients)[:5],

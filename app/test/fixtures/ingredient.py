@@ -1,13 +1,12 @@
 import pytest
-from faker import Faker
-
-fake = Faker()
+from app.utils.functions import (get_random_price, get_random_string,
+                                 LIST_RANGE_5, LIST_RANGE_10)
 
 
 def ingredient_mock() -> dict:
     return {
-        'name': fake.pystr(),
-        'price': fake.pyfloat(left_digits=2, right_digits=3, positive=True)
+        'name': get_random_string(),
+        'price': get_random_price()
     }
 
 
@@ -23,7 +22,7 @@ def ingredient():
 
 @pytest.fixture
 def ingredients():
-    return [ingredient_mock() for _ in range(5)]
+    return [ingredient_mock() for _ in range(LIST_RANGE_5)]
 
 
 @pytest.fixture
@@ -35,7 +34,7 @@ def create_ingredient(client, ingredient_uri) -> dict:
 @pytest.fixture
 def create_ingredients(client, ingredient_uri) -> list:
     ingredients = []
-    for _ in range(10):
+    for _ in range(LIST_RANGE_10):
         new_ingredient = client.post(ingredient_uri, json=ingredient_mock())
         ingredients.append(new_ingredient.json)
     return ingredients
