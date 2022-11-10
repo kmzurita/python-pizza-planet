@@ -7,6 +7,12 @@ from sqlalchemy.sql import text, column
 from .models import Ingredient, Order, IngredientOrderDetail, BeverageOrderDetail, Size, Beverage, db
 from .serializers import (IngredientSerializer, OrderSerializer,
                           SizeSerializer, BeverageSerializer, ma)
+from app.utils.functions import MAX_DECIMAL_DIGITS
+
+MOST_REQUESTED_INGREDIENT_NUMBER = 1
+SORTED_LAMBDA_NUMBER = 1
+NUMBER_BEST_CUSTOMERS = 3
+INITIAL_REVENUE = 0
 
 
 class BaseManager:
@@ -110,7 +116,7 @@ class ReportManager(BaseManager):
                                in ingredient_order_detail_list]
         if ingredients_id_list:
             ingredients_count = Counter(ingredients_id_list)
-            for id, count in ingredients_count.most_common(1):
+            for id, count in ingredients_count.most_common(MOST_REQUESTED_INGREDIENT_NUMBER):
                 ingredient_id = id
                 ingredient_count = count
             most_requested_ingredient = Ingredient.query.get(ingredient_id)
@@ -125,17 +131,21 @@ class ReportManager(BaseManager):
         date_list = [(order.date.month, order.total_price)
                      for order in order_list]
         if date_list:
-            monthly_revenue_report = {month: 0 for month, _ in date_list}
+            monthly_revenue_report = {
+                month: INITIAL_REVENUE for month, _ in date_list}
             for month_of_order, total_price in date_list:
                 monthly_revenue_report.update(
                     {month_of_order: total_price + monthly_revenue_report.get(month_of_order)})
             sorted_report = sorted(
                 monthly_revenue_report.items(),
-                key=lambda x: x[1],
+                key=lambda x: x[SORTED_LAMBDA_NUMBER],
                 reverse=True)
+            month_with_most_revenue = next(iter(sorted_report))
+            (month_number, month_revenue) = month_with_most_revenue
             return {
-                'month': month_name[sorted_report[0][0]],
-                'revenue': round(sorted_report[0][1], 2)
+                'month': month_name[month_number],
+                'revenue': round(month_revenue,
+                                 MAX_DECIMAL_DIGITS)
             }
 
     @classmethod
@@ -144,7 +154,8 @@ class ReportManager(BaseManager):
         client_data = [client.client_dni for client in order_list]
         if client_data:
             clients_count = Counter(client_data)
-            most_loyal_customers = clients_count.most_common(3)
+            most_loyal_customers = clients_count.most_common(
+                NUMBER_BEST_CUSTOMERS)
             return [
                 {
                     'dni': dni,

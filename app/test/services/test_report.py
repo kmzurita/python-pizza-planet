@@ -1,19 +1,7 @@
 import pytest
-from faker import Faker
-
-fake = Faker()
+from app.utils.functions import OK_STATUS
 
 
-def test_get_most_requested_ingredient_service(client, report_uri):
-    response = client.get(f'{report_uri}ingredient')
-    pytest.assume(response.status.startswith('200'))
-
-
-def test_get_month_with_most_revenue_service(client, report_uri):
-    response = client.get(f'{report_uri}month')
-    pytest.assume(response.status.startswith('200'))
-
-
-def test_get_best_customers_service(client, report_uri):
-    response = client.get(f'{report_uri}customer')
-    pytest.assume(response.status.startswith('200'))
+def test_get_report_service(client, report_uri):
+    response = client.get(f'{report_uri}')
+    pytest.assume(response.status.startswith(OK_STATUS))

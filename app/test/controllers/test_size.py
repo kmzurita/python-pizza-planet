@@ -1,5 +1,6 @@
 import pytest
 from app.controllers import SizeController
+from app.utils.functions import get_random_price
 
 
 def test_create(app, size: dict):
@@ -15,7 +16,7 @@ def test_update(app, size: dict):
     created_size, _ = SizeController.create(size)
     updated_fields = {
         'name': 'updated',
-        'price': 10
+        'price': get_random_price()
     }
     updated_size, error = SizeController.update({
         '_id': created_size['_id'],

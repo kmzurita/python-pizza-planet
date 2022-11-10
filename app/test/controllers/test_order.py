@@ -2,7 +2,7 @@ import pytest
 from app.controllers import (IngredientController, OrderController,
                              SizeController, BeverageController)
 from app.controllers.base import BaseController
-from app.utils.functions import get_random_choice, shuffle_list
+from app.utils.functions import get_random_choice, shuffle_list, MAX_DECIMAL_DIGITS
 
 
 def __order(ingredients: list, beverages: list, size: dict, client_data: dict):
@@ -72,7 +72,7 @@ def test_calculate_order_price(app, ingredients, beverages, size, client_data):
     pytest.assume(created_order['total_price'] == round(
         created_size['price'] +
         sum(ingredient['price'] for ingredient in created_ingredients) +
-        sum(beverage['price'] for beverage in created_beverages), 2))
+        sum(beverage['price'] for beverage in created_beverages), MAX_DECIMAL_DIGITS))
 
 
 def test_get_by_id(app, ingredients, beverages, size, client_data):
