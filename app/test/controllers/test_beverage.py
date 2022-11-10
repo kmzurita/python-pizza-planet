@@ -1,5 +1,6 @@
 import pytest
 from app.controllers import BeverageController
+from app.utils.functions import get_random_price
 
 
 def test_create_beverage_controller(app, beverage: dict):
@@ -15,7 +16,7 @@ def test_update_beverage_controller(app, beverage: dict):
     created_beverage, _ = BeverageController.create(beverage)
     updated_fields = {
         'name': 'updated',
-        'price': 10
+        'price': get_random_price()
     }
     updated_beverage, error = BeverageController.update({
         '_id': created_beverage['_id'],
