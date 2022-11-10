@@ -9,6 +9,11 @@ install:
 test:
 	pytest
 
+start-db:
+	python3 manage.py db init
+	python3 manage.py db migrate
+	python3 manage.py db upgrade
+
 init-db:
 	python3 manage.py db init
 
@@ -21,6 +26,6 @@ upgrade-db:
 empty-db:
 	python3 manage.py db downgrade
 
-seed-db:
+fill-db:
 	python3 manage.py db upgrade
 	python3 manage.py seed_db

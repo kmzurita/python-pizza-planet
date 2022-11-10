@@ -22,7 +22,7 @@ def generate_random_ingredient_list():
     return [
         {
             'name': ingredient,
-            'price': get_random_price
+            'price': get_random_price()
         } for ingredient in ingredient_data.ingredients]
 
 
@@ -30,7 +30,7 @@ def generate_random_beverage_list():
     return [
         {
             'name': beverage,
-            'price': get_random_price
+            'price': get_random_price()
         } for beverage in beverage_data.beverages]
 
 
@@ -38,7 +38,7 @@ def generate_random_size_list():
     return [
         {
             'name': size,
-            'price': get_random_price
+            'price': get_random_price()
         } for size in size_data.sizes]
 
 
