@@ -159,10 +159,6 @@ class ReportManager(BaseManager):
             if order.client_dni == dni:
                 return order.client_name
 
-    @staticmethod
-    def get_month_name(month_number: int) -> str:
-        return month_name[month_number]
-
 
 class IndexManager(BaseManager):
 
