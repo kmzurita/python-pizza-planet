@@ -1,4 +1,6 @@
 from typing import Any, List, Optional, Sequence
+from collections import Counter
+from calendar import month_name
 
 from sqlalchemy.sql import text, column
 
@@ -92,6 +94,70 @@ class OrderManager(BaseManager):
     @classmethod
     def update(cls):
         raise NotImplementedError(f'Method not suported for {cls.__name__}')
+
+
+class ReportManager(BaseManager):
+    order_model = Order
+    ingredient_order_detail_model = IngredientOrderDetail
+    session = db.session
+
+    @classmethod
+    def get_most_requested_ingredient(cls) -> dict:
+        ingredient_order_detail_list = cls.session.query(
+            cls.ingredient_order_detail_model).all()
+        ingredients_id_list = [ingredient_order_detail.ingredient_id
+                               for ingredient_order_detail
+                               in ingredient_order_detail_list]
+        if ingredients_id_list:
+            ingredients_count = Counter(ingredients_id_list)
+            for id, count in ingredients_count.most_common(1):
+                ingredient_id = id
+                ingredient_count = count
+            most_requested_ingredient = Ingredient.query.get(ingredient_id)
+            return {
+                'name': most_requested_ingredient.name,
+                'count': ingredient_count
+            }
+
+    @classmethod
+    def get_month_with_most_revenue(cls) -> dict:
+        order_list = cls.session.query(cls.order_model).all()
+        date_list = [(order.date.month, order.total_price)
+                     for order in order_list]
+        if date_list:
+            monthly_revenue_report = {month: 0 for month, _ in date_list}
+            for month_of_order, total_price in date_list:
+                monthly_revenue_report.update(
+                    {month_of_order: total_price + monthly_revenue_report.get(month_of_order)})
+            sorted_report = sorted(
+                monthly_revenue_report.items(),
+                key=lambda x: x[1],
+                reverse=True)
+            return {
+                'month': month_name[sorted_report[0][0]],
+                'revenue': round(sorted_report[0][1], 2)
+            }
+
+    @classmethod
+    def get_best_customers(cls) -> list:
+        order_list = cls.session.query(cls.order_model).all()
+        client_data = [client.client_dni for client in order_list]
+        if client_data:
+            clients_count = Counter(client_data)
+            most_loyal_customers = clients_count.most_common(3)
+            return [
+                {
+                    'dni': dni,
+                    'name': cls.get_client_name(dni, order_list),
+                    'number_of_purchases': number_of_purchases
+                } for dni, number_of_purchases in most_loyal_customers
+            ]
+
+    @staticmethod
+    def get_client_name(dni: str, order_list: list) -> str:
+        for order in order_list:
+            if order.client_dni == dni:
+                return order.client_name
 
 
 class IndexManager(BaseManager):
