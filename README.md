@@ -70,7 +70,7 @@ make fill-db
 - To empty the database:
 
 ```bash
-make start-db
+make empty-db
 ```
 
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
