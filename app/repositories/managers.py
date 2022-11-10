@@ -1,5 +1,6 @@
 from typing import Any, List, Optional, Sequence
 from collections import Counter
+from calendar import month_name
 
 from sqlalchemy.sql import text, column
 
@@ -133,7 +134,7 @@ class ReportManager(BaseManager):
                 key=lambda x: x[1],
                 reverse=True)
             return {
-                'month': sorted_report[0][0],
+                'month': month_name[sorted_report[0][0]],
                 'revenue': round(sorted_report[0][1], 2)
             }
 
@@ -157,6 +158,10 @@ class ReportManager(BaseManager):
         for order in order_list:
             if order.client_dni == dni:
                 return order.client_name
+
+    @staticmethod
+    def get_month_name(month_number: int) -> str:
+        return month_name[month_number]
 
 
 class IndexManager(BaseManager):
