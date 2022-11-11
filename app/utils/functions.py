@@ -22,8 +22,8 @@ def get_random_choice(choices: Union[tuple, list]) -> Any:
     return random.choice(choices)
 
 
-def get_random_list(choices: Union[tuple, list], range: int) -> Any:
-    return random.sample(choices, k=random.randrange(range))
+def get_random_list(choices: Union[tuple, list], list_range: int) -> Any:
+    return random.sample(choices, k=random.randrange(list_range))
 
 
 def shuffle_list(choices: list) -> list:
@@ -63,4 +63,4 @@ def generate_random_dates(number_of_orders: int):
     end = datetime.strptime(FINISHING_DATE_RANGE, "%d-%m-%Y")
     date_generated = [start + timedelta(days=x)
                       for x in range(STARTING_RANGE, (end-start).days)]
-    return random.choices(date_generated, k=number_of_orders)
+    return random.sample(date_generated, k=number_of_orders)

@@ -27,9 +27,6 @@ class OrderController(BaseController):
         size_id = current_order.get('size_id')
         size = SizeManager.get_by_id(size_id)
 
-        if not size:
-            return 'Invalid size for Order', None
-
         beverages_ids = current_order.pop('beverages', [])
         ingredient_ids = current_order.pop('ingredients', [])
         try:

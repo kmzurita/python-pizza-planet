@@ -122,3 +122,19 @@ ext install ritwickdey.LiveServer
 ```bash
 make test
 ```
+
+### Testing coverage
+
+- Make sure that you have `coverage` installed
+
+- Run the first the coverage test command
+
+```bash
+make test-coverage
+```
+
+- Run the coverage report command
+
+```bash
+make report-coverage
+```

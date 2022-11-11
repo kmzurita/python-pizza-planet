@@ -29,3 +29,9 @@ empty-db:
 fill-db:
 	python3 manage.py db upgrade
 	python3 manage.py seed_db
+
+test-coverage:
+	coverage run -m pytest
+
+report-coverage:
+	coverage report -m
