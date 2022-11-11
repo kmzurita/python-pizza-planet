@@ -2,8 +2,6 @@ from typing import Any, List, Optional, Sequence
 from collections import Counter
 from calendar import month_name
 
-from sqlalchemy.sql import text, column
-
 from .models import Ingredient, Order, IngredientOrderDetail, BeverageOrderDetail, Size, Beverage, db
 from .serializers import (IngredientSerializer, OrderSerializer,
                           SizeSerializer, BeverageSerializer, ma)
@@ -169,10 +167,3 @@ class ReportManager(BaseManager):
         for order in order_list:
             if order.client_dni == dni:
                 return order.client_name
-
-
-class IndexManager(BaseManager):
-
-    @classmethod
-    def test_connection(cls):
-        cls.session.query(column('1')).from_statement(text('SELECT 1')).all()
