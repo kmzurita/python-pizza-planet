@@ -120,3 +120,13 @@ def test_get_all(app, ingredients, beverages, sizes, client_data):
         assert current_id in searchable_orders
         for param, value in created_order.items():
             pytest.assume(searchable_orders[current_id][param] == value)
+
+def test_update(app, ingredients, beverages, size, client_data):
+    created_size, created_ingredients = __create_sizes_and_ingredients(ingredients, [
+        size])
+    created_beverages = __create_beverages(beverages)
+    order = __order(created_ingredients, created_beverages,
+                    created_size, client_data)
+    updated_order, error = OrderController.update(order)
+    pytest.assume(updated_order is None)
+    pytest.assume(error == "Error: No id was provided for update")
