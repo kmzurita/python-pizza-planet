@@ -44,7 +44,7 @@ def __create_beverages(beverages: list):
     return created_beverages
 
 
-def test_create(app, ingredients, beverages, size, client_data):
+def test_create_order_returns_created_order_when_the_input_is_an_order(app, ingredients, beverages, size, client_data):
     created_size, created_ingredients = __create_sizes_and_ingredients(
         ingredients=ingredients,
         sizes=[size])
@@ -73,7 +73,7 @@ def test_create(app, ingredients, beverages, size, client_data):
         pytest.assume(not beverages_in_detail.difference(beverages_ids))
 
 
-def test_create_failure(app, ingredients, beverages, size, client_data):
+def test_create_order_returns_SQLalchemy_error_when_there_is_no_db(app, ingredients, beverages, size, client_data):
     created_size, created_ingredients = __create_sizes_and_ingredients(
         ingredients=ingredients,
         sizes=[size])
@@ -107,7 +107,7 @@ def test_calculate_order_price(app, ingredients, beverages, size, client_data):
         sum(beverage['price'] for beverage in created_beverages), MAX_DECIMAL_DIGITS))
 
 
-def test_get_by_id(app, ingredients, beverages, size, client_data):
+def test_get_order_by_id_returns_an_order_when_the_input_is_a_dict(app, ingredients, beverages, size, client_data):
     created_size, created_ingredients = __create_sizes_and_ingredients(
         ingredients=ingredients,
         sizes=[size])
@@ -135,7 +135,7 @@ def test_get_by_id(app, ingredients, beverages, size, client_data):
         pytest.assume(not beverages_in_detail.difference(beverages_ids))
 
 
-def test_get_all(app, ingredients, beverages, sizes, client_data):
+def test_get_all_order_returns_order_list_when_the_input_is_a_dict(app, ingredients, beverages, sizes, client_data):
     created_sizes, created_ingredients = __create_sizes_and_ingredients(
         ingredients=ingredients,
         sizes=sizes)
@@ -160,7 +160,7 @@ def test_get_all(app, ingredients, beverages, sizes, client_data):
             pytest.assume(searchable_orders[current_id][param] == value)
 
 
-def test_update(app, ingredients, beverages, size, client_data):
+def test_update_order_returns_error_message_when_input_is_a_dict(app, ingredients, beverages, size, client_data):
     created_size, created_ingredients = __create_sizes_and_ingredients(
         ingredients=ingredients,
         sizes=[size])

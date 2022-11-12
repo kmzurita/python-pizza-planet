@@ -4,7 +4,7 @@ from app.utils.functions import get_random_price
 from app.plugins import db
 
 
-def test_create(app, ingredient: dict):
+def test_create_ingredient_returns_create_ingredient_when_the_input_is_a_dict(app, ingredient: dict):
     created_ingredient, error = IngredientController.create(entry=ingredient)
     pytest.assume(error is None)
     for param, value in ingredient.items():
@@ -13,14 +13,14 @@ def test_create(app, ingredient: dict):
         pytest.assume(created_ingredient['_id'])
 
 
-def test_create_failure(app, ingredient: dict):
+def test_create_ingredient_returns_SQLalchemy_error_when_there_is_no_db(app, ingredient: dict):
     db.drop_all()
     created_ingredient, error = IngredientController.create(entry=ingredient)
     pytest.assume(created_ingredient is None)
     pytest.assume(type(error) is str)
 
 
-def test_update(app, ingredient: dict):
+def test_update_ingredient_returns_updated_ingredient_when_the_input_is_a_dict(app, ingredient: dict):
     created_ingredient, _ = IngredientController.create(entry=ingredient)
     updated_fields = {
         'name': 'updated',
@@ -40,7 +40,7 @@ def test_update(app, ingredient: dict):
         pytest.assume(ingredient_from_database[param] == value)
 
 
-def test_update_failure(app, ingredient: dict):
+def test_update_ingredient_returns_SQLalchemy_error_when_there_is_no_db(app, ingredient: dict):
     created_ingredient, _ = IngredientController.create(entry=ingredient)
     updated_fields = {
         'name': 'updated',
@@ -56,7 +56,7 @@ def test_update_failure(app, ingredient: dict):
     pytest.assume(type(error) is str)
 
 
-def test_get_by_id(app, ingredient: dict):
+def test_get_ingredient_by_id_returns_an_ingredient_when_the_input_is_a_dict(app, ingredient: dict):
     created_ingredient, _ = IngredientController.create(entry=ingredient)
     ingredient_from_db, error = IngredientController.get_by_id(
         _id=created_ingredient['_id'])
@@ -65,14 +65,14 @@ def test_get_by_id(app, ingredient: dict):
         pytest.assume(ingredient_from_db[param] == value)
 
 
-def test_get_by_id_failure(app):
+def test_get_ingredient_by_id_returns_SQLalchemy_error_when_there_is_no_db(app):
     db.drop_all()
     ingredient_from_db, error = IngredientController.get_by_id(_id={})
     pytest.assume(ingredient_from_db is None)
     pytest.assume(type(error) is str)
 
 
-def test_get_all(app, ingredients: list):
+def test_get_all_ingredients_returns_ingredient_list_when_there_is_no_input(app, ingredients: list):
     created_ingredients = []
     for ingredient in ingredients:
         created_ingredient, _ = IngredientController.create(entry=ingredient)
@@ -89,7 +89,7 @@ def test_get_all(app, ingredients: list):
             pytest.assume(searchable_ingredients[current_id][param] == value)
 
 
-def test_get_all_failure(app):
+def test_get_all_ingredients_returns_SQLalchemy_error_when_there_is_no_db(app):
     db.drop_all()
     ingredients_from_db, error = IngredientController.get_all()
     pytest.assume(ingredients_from_db is None)

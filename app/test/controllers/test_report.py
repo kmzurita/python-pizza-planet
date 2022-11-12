@@ -3,7 +3,7 @@ from app.controllers import ReportController, OrderController
 from app.plugins import db
 
 
-def test_get_report(app, create_orders):
+def test_get_retort_returns_dict_witth_three_objects_when_there_is_no_input(app, create_orders):
     for order in create_orders:
         OrderController.create(order)
     report, error = ReportController.get_report()
@@ -13,7 +13,7 @@ def test_get_report(app, create_orders):
     pytest.assume(report["best_customers"])
 
 
-def test_get_report_failure(app, create_orders):
+def test_get_report_returns_SQLAlchemy_error_when_there_is_no_db(app, create_orders):
     for order in create_orders:
         OrderController.create(order)
     db.drop_all()
@@ -31,7 +31,7 @@ def test_get_most_requested_ingredient(app, create_orders):
     pytest.assume(most_requested_ingredient["count"])
 
 
-def test_get_most_requested_ingredient_failure(app, create_orders):
+def test_get_most_requested_ingredient_returns_SQLAlchemy_error_when_there_is_no_db(app, create_orders):
     for order in create_orders:
         OrderController.create(order)
     db.drop_all()
@@ -40,7 +40,7 @@ def test_get_most_requested_ingredient_failure(app, create_orders):
     pytest.assume(type(error) is str)
 
 
-def test_get_month_with_most_revenue(app, create_orders):
+def test_get_month_with_most_revenue_returns_dict_when_there_is_no_input(app, create_orders):
     for order in create_orders:
         OrderController.create(order)
     month_with_most_revenue, error = ReportController.get_month_with_most_revenue()
@@ -49,7 +49,7 @@ def test_get_month_with_most_revenue(app, create_orders):
     pytest.assume(month_with_most_revenue["revenue"])
 
 
-def test_get_month_with_most_revenue_failure(app, create_orders):
+def test_get_month_with_most_revenue_returns_SQLAlchemy_error_when_there_is_no_db(app, create_orders):
     for order in create_orders:
         OrderController.create(order)
     db.drop_all()
@@ -58,7 +58,7 @@ def test_get_month_with_most_revenue_failure(app, create_orders):
     pytest.assume(type(error) is str)
 
 
-def test_get_best_customers(app, create_orders):
+def test_get_best_customers_returns_list_when_there_is_no_input(app, create_orders):
     for order in create_orders:
         OrderController.create(order)
     best_customers, error = ReportController.get_best_customers()
@@ -69,7 +69,7 @@ def test_get_best_customers(app, create_orders):
         pytest.assume(customer["number_of_purchases"])
 
 
-def test_get_best_customers_failure(app, create_orders):
+def test_get_best_customers_returns_SQLAlchemy_error_when_there_is_no_db(app, create_orders):
     for order in create_orders:
         OrderController.create(order)
     db.drop_all()
