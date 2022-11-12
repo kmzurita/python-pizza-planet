@@ -4,7 +4,7 @@ from app.utils.functions import (get_random_price,
                                  OK_STATUS)
 
 
-def test_create_beverage_service(create_beverage):
+def test_create_beverage_service_returns_created_beverage_when_calls_post_method(create_beverage):
     beverage = create_beverage.json
     pytest.assume(create_beverage.status.startswith(OK_STATUS))
     pytest.assume(beverage['_id'])
@@ -12,7 +12,7 @@ def test_create_beverage_service(create_beverage):
     pytest.assume(beverage['price'])
 
 
-def test_update_beverage_service(client, create_beverage, beverage_uri):
+def test_update_beverage_service_returns_updated_beverage_when_calls_put_method(client, create_beverage, beverage_uri):
     current_beverage = create_beverage.json
     update_data = {**current_beverage,
                    'name': get_random_string(),
@@ -24,7 +24,7 @@ def test_update_beverage_service(client, create_beverage, beverage_uri):
         pytest.assume(updated_beverage[param] == value)
 
 
-def test_get_beverage_by_id_service(client, create_beverage, beverage_uri):
+def test_get_beverage_by_id_service_returns_a_beverage_when_calls_get_method_with_id(client, create_beverage, beverage_uri):
     current_beverage = create_beverage.json
     response = client.get(f'{beverage_uri}id/{current_beverage["_id"]}')
     pytest.assume(response.status.startswith(OK_STATUS))
@@ -33,7 +33,7 @@ def test_get_beverage_by_id_service(client, create_beverage, beverage_uri):
         pytest.assume(returned_beverage[param] == value)
 
 
-def test_get_beverages_service(client, create_beverages, beverage_uri):
+def test_get_beverages_service_returns_a_beverage_list_when_calls_get_method(client, create_beverages, beverage_uri):
     response = client.get(beverage_uri)
     pytest.assume(response.status.startswith(OK_STATUS))
     returned_beverages = {beverage['_id']: beverage for beverage in response.json}

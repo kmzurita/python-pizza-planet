@@ -25,18 +25,20 @@ class OrderController(BaseController):
             return 'Invalid order payload', None
 
         size_id = current_order.get('size_id')
-        size = SizeManager.get_by_id(size_id)
+        size = SizeManager.get_by_id(_id=size_id)
 
         beverages_ids = current_order.pop('beverages', [])
         ingredient_ids = current_order.pop('ingredients', [])
         try:
-            ingredients = IngredientManager.get_by_id_list(ingredient_ids)
-            beverages = BeverageManager.get_by_id_list(beverages_ids)
+            ingredients = IngredientManager.get_by_id_list(ids=ingredient_ids)
+            beverages = BeverageManager.get_by_id_list(ids=beverages_ids)
             price = cls.calculate_order_price(
                 size_price=size.get('price'),
                 ingredients=ingredients,
                 beverages=beverages)
             order_with_price = {**current_order, 'total_price': price}
-            return cls.manager.create(order_with_price, ingredients, beverages), None
+            return cls.manager.create(order_data=order_with_price,
+                                      ingredients=ingredients,
+                                      beverages=beverages), None
         except (SQLAlchemyError, RuntimeError) as ex:
             return None, str(ex)
