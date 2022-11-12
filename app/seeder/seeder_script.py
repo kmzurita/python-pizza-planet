@@ -69,7 +69,7 @@ def _seed_order_table(dates: list, sizes: list, beverages: list, ingredients: li
 
 def seed_database():
     _seed_size_table(sizes=_sizes)
-    _seed_ingredient_table(ingrefdients=_ingredients)
+    _seed_ingredient_table(ingredients=_ingredients)
     _seed_beverage_table(beverages=_beverages)
     sizes = SizeManager.get_all()
     ingredients = IngredientManager.get_all()
