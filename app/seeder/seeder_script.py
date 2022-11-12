@@ -1,4 +1,6 @@
-from app.seeder.seeder_utils import *
+from app.seeder.seeder_utils import (generate_random_size_list, generate_random_ingredient_list,
+                                     generate_random_beverage_list, generate_random_clients_data,
+                                     calculate_total_price)
 from app.utils.functions import (get_random_choice, get_random_list,
                                  generate_random_dates)
 from app.repositories.managers import (
@@ -66,9 +68,9 @@ def _seed_order_table(dates: list, sizes: list, beverages: list, ingredients: li
 
 
 def seed_database():
-    _seed_size_table(_sizes)
-    _seed_ingredient_table(_ingredients)
-    _seed_beverage_table(_beverages)
+    _seed_size_table(sizes=_sizes)
+    _seed_ingredient_table(ingrefdients=_ingredients)
+    _seed_beverage_table(beverages=_beverages)
     sizes = SizeManager.get_all()
     ingredients = IngredientManager.get_all()
     beverages = BeverageManager.get_all()

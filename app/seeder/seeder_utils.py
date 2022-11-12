@@ -1,5 +1,4 @@
-from random import choices, choice, randrange, sample
-from .stored_data import beverage_data, ingredient_data, size_data
+from app.seeder.stored_data import beverage_data, ingredient_data, size_data
 from app.utils.functions import (get_random_price, get_random_address,
                                  get_random_name, get_random_phone,
                                  get_random_dni, MAX_DECIMAL_DIGITS)
